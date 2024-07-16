@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { UserContext } from "../../providers/UserProvider"
 import { useForm } from "../../hooks/useForm"
@@ -8,6 +9,8 @@ import { ROLES } from "../../helpers/constants"
 export function Header() {
 
     const { privateKey, role, setPrivateKey, setRole } = useContext(UserContext)
+
+    const navigate = useNavigate()
 
     const { formData, errors, validate, handleChange, reset } = useForm({
         defaultData: { privateKey: '', role: '' },
@@ -37,8 +40,8 @@ export function Header() {
             {privateKey && role ?
                 <nav>
                     <ul>
-                        <li>Tienda</li>
-                        <li>Historial</li>
+                        <li onClick={() => navigate('/')}>Inicio</li>
+                        <li onClick={() => navigate('/historial')}>Historial</li>
                     </ul>
                 </nav> :
                 <form onSubmit={handleSubmit}>

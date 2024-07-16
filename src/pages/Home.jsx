@@ -15,7 +15,7 @@ export function Home() {
 
     const { formData, handleChange, reset } = useForm({
         defaultData: {
-            amount: 0,
+            amount: 0.00,
             to: '0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097'
         },
         rules: {}
@@ -33,17 +33,17 @@ export function Home() {
     }
 
     return (
-        <div>
+        <>
             <Header />
             <main>
                 {privateKey && role &&
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="amount">Monto</label>
-                        <input type="number" name='amount' value={formData.amount} onChange={handleChange} />
+                        <input type="number" name='amount' step="0.01" value={formData.amount} onChange={handleChange} />
                         <input type="submit" value="Enviar" />
                     </form>
                 }
             </main>
-        </div>
+        </>
     )
 }

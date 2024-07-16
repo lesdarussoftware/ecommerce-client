@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { UserProvider } from './providers/UserProvider'
 
 import { Home } from './pages/Home'
-
-import './App.css'
+import { History } from './pages/History'
 
 function App() {
   return (
@@ -12,6 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/historial' element={<History />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>
