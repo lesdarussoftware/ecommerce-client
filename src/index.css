@@ -39,13 +39,15 @@ input,
 select,
 button,
 nav .nav-menu li {
+    border: none;
     padding: 10px;
     border-radius: 2px;
 }
 
 input,
 select,
-option {
+option,
+textarea {
     color: #000;
 }
 

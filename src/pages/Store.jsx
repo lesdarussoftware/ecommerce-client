@@ -1,41 +1,36 @@
-import { ethers } from 'ethers'
+import { useContext, useEffect } from "react"
+
+import { AuthContext } from "../providers/AuthProvider"
+import { useSales } from "../hooks/useSales"
 
 import { Header } from "../components/common/Header"
-import { useContract } from "../hooks/useContract"
-import { useForm } from "../hooks/useForm"
+import { NewSale } from "../components/sales/NewSale"
+import { AuthForm } from "../components/common/AuthForm"
 
 export function Store() {
 
-    const { contract } = useContract()
-    const { formData, handleChange, reset } = useForm({
-        defaultData: {
-            amount: 0.00,
-            to: '0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097'
-        },
-        rules: {}
-    })
+    const { auth } = useContext(AuthContext)
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-        try {
-            const amountInWei = ethers.parseEther(formData.amount.toString())
-            await contract.receivePayment(amountInWei, formData.to, { value: amountInWei })
-            reset()
-        } catch (e) {
-            console.log(e)
-        }
-    }
+    const { sales, getSales, createSale, register, setRegister } = useSales()
+
+    useEffect(() => {
+        getSales()
+    }, [])
 
     return (
         <>
             <Header />
-            <form className="purchase-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="amount">Monto</label>
-                    <input type="number" name='amount' step="0.01" value={formData.amount} onChange={handleChange} />
-                </div>
-                <input type="submit" value="Enviar" />
-            </form>
+            <main>
+                {register && auth ?
+                    <NewSale handleSubmit={(e, formData, validate, reset) => createSale(e, formData, validate, reset)} /> :
+                    <div>
+                        {auth ? <button type="button" onClick={() => setRegister(true)}>Vender</button> : <AuthForm />}
+                        {sales.map(s => {
+                            return s.id
+                        })}
+                    </div>
+                }
+            </main>
         </>
     )
 }
