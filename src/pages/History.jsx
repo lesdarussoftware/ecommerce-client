@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ethers } from 'ethers'
 
-import { UserContext } from "../providers/UserProvider";
+import { AuthContext } from "../providers/AuthProvider";
 import { useContract } from "../hooks/useContract";
 
 import { Header } from "../components/common/Header";
@@ -11,7 +11,7 @@ import { TRANSACTION_STATUS } from "../helpers/constants";
 
 export function History() {
 
-    const { privateKey, role } = useContext(UserContext)
+    const { auth } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
@@ -21,7 +21,7 @@ export function History() {
 
     useEffect(() => {
         (async () => {
-            if (!privateKey || !role) {
+            if (!auth) {
                 return navigate('/')
             } else if (contract) {
                 const result = await contract.getMyTransactions()
@@ -40,32 +40,34 @@ export function History() {
     return (
         <>
             <Header />
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tipo</th>
-                        <th>Contraparte</th>
-                        <th>Monto</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {transactions.map(t => {
-                        return (
-                            <tr key={t.id}>
-                                <td>{t.id}</td>
-                                <td>{t.type}</td>
-                                <td>{t.counterpart}</td>
-                                <td>{t.amount}</td>
-                                <td>{t.date}</td>
-                                <td>{t.status}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <main>
+                <table className="history-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipo</th>
+                            <th>Contraparte</th>
+                            <th>Monto (ETH)</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {transactions.map(t => {
+                            return (
+                                <tr key={t.id}>
+                                    <td>{t.id}</td>
+                                    <td>{t.type}</td>
+                                    <td>{t.counterpart}</td>
+                                    <td>{t.amount}</td>
+                                    <td>{t.date}</td>
+                                    <td>{t.status}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </main>
         </>
     )
 }

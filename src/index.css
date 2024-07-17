@@ -1,0 +1,101 @@
+:root {
+    --style-color: #00C52C;
+    --style-color-hover: #32c853;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Orbitron Variable', sans-serif;
+    color: #FFF;
+}
+
+body {
+    background-color: #000;
+    padding: 10px;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: end;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.user-form {
+    width: fit-content;
+    display: flex;
+    gap: 5px;
+}
+
+nav .nav-menu {
+    display: flex;
+    gap: 5px;
+    list-style: none;
+}
+
+input,
+select,
+button,
+nav .nav-menu li {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+input,
+select,
+option {
+    color: #000;
+}
+
+input,
+select {
+    border: none;
+    width: 150px;
+}
+
+select {
+    padding: 9px 10px;
+}
+
+input[type="submit"],
+button,
+nav .nav-menu li {
+    transition: 100ms all;
+    cursor: pointer;
+}
+
+input[type="submit"],
+button {
+    background-color: var(--style-color);
+    padding: 10px 25px;
+    color: #FFF;
+}
+
+input[type="submit"]:hover,
+button:hover,
+nav .nav-menu li:hover {
+    background-color: var(--style-color-hover);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.purchase-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: fit-content;
+}
+
+.purchase-form input[type="submit"] {
+    width: 100%;
+}
+
+.history-table {
+    width: 100%;
+    text-align: center;
+}

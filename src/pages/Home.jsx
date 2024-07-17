@@ -1,34 +1,30 @@
 import { useContext } from "react";
-import { ethers } from 'ethers'
 
-import { UserContext } from "../providers/UserProvider";
-import { useContract } from "../hooks/useContract";
+import { AuthContext } from "../providers/AuthProvider";
 import { useForm } from "../hooks/useForm";
 
 import { Header } from "../components/common/Header";
 
 export function Home() {
 
-    const { privateKey, role } = useContext(UserContext)
+    const { auth, setAuth } = useContext(AuthContext)
 
-    const { contract } = useContract()
-
-    const { formData, handleChange, reset } = useForm({
-        defaultData: {
-            amount: 0.00,
-            to: '0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097'
-        },
-        rules: {}
+    const { formData, errors, validate, handleChange, reset } = useForm({
+        defaultData: { privateKey: '' },
+        rules: {
+            privateKey: {
+                required: true,
+                minLength: 66,
+                maxLength: 66
+            }
+        }
     })
 
-    const handleSubmit = async e => {
+    const handleAuthenticate = (e) => {
         e.preventDefault()
-        try {
-            const amountInWei = ethers.parseEther(formData.amount.toString())
-            await contract.receivePayment(amountInWei, formData.to, { value: amountInWei })
+        if (validate()) {
+            setAuth(formData.privateKey)
             reset()
-        } catch (e) {
-            console.log(e)
         }
     }
 
@@ -36,11 +32,22 @@ export function Home() {
         <>
             <Header />
             <main>
-                {privateKey && role &&
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="amount">Monto</label>
-                        <input type="number" name='amount' step="0.01" value={formData.amount} onChange={handleChange} />
-                        <input type="submit" value="Enviar" />
+                {!auth &&
+                    <form className="user-form" onSubmit={handleAuthenticate}>
+                        <input
+                            type="text"
+                            name="privateKey"
+                            placeholder="Llave privada"
+                            value={formData.privateKey}
+                            onChange={handleChange}
+                        />
+                        {errors.privateKey?.type === 'required' &&
+                            <small>* La llave privada es requerida.</small>
+                        }
+                        {(errors.privateKey?.type === 'maxLength' || errors.privateKey?.type === 'minLength') &&
+                            <small>* La llave privada es inválida.</small>
+                        }
+                        <input type="submit" value="Guardar" />
                     </form>
                 }
             </main>
