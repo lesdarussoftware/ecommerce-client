@@ -23,17 +23,27 @@ export function Store() {
         <>
             <Header />
             <main>
-                {register && auth ?
-                    <NewSale handleSubmit={(e, formData, validate, reset) => createSale(e, formData, validate, reset)} /> :
+                {auth ?
                     <>
-                        {auth ? <button type="button" onClick={() => setRegister(true)}>Vender</button> : <AuthForm />}
-                        {purchase && auth ?
-                            <Purchase sale={purchase} setPurchase={setPurchase} /> :
-                            <div className="store-container">
-                                {sales.map(s => <SaleItem key={s.id} sale={s} setPurchase={setPurchase} />)}
-                            </div>
+                        {!purchase && !register &&
+                            <button type="button" onClick={() => setRegister(true)}>
+                                Vender
+                            </button>
                         }
-                    </>
+                    </> :
+                    <AuthForm />
+                }
+                {register &&
+                    <NewSale
+                        handleSubmit={(e, formData, validate, reset) => createSale(e, formData, validate, reset)}
+                        setRegister={setRegister}
+                    />
+                }
+                {purchase && <Purchase sale={purchase} setPurchase={setPurchase} />}
+                {!register && !purchase &&
+                    <div className="store-container">
+                        {sales.map(s => <SaleItem key={s.id} sale={s} setPurchase={setPurchase} />)}
+                    </div>
                 }
             </main>
         </>

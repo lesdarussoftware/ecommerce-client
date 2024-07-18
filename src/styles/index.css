@@ -25,10 +25,11 @@ header {
     margin-bottom: 20px;
 }
 
-.user-form {
+.auth-form {
     width: fit-content;
     display: flex;
     gap: 5px;
+    align-items: start;
 }
 
 nav .nav-menu {
@@ -97,16 +98,19 @@ nav .nav-menu li:hover {
 .form-group {
     display: flex;
     flex-direction: column;
+    gap: 5px
 }
 
-.purchase-form {
+.purchase-form,
+.new-sale-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: fit-content;
 }
 
-.purchase-form input[type="submit"] {
+.purchase-form input[type="submit"],
+.new-sale-form input[type="submit"] {
     width: 100%;
 }
 

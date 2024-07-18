@@ -28,39 +28,37 @@ export function Purchase({ sale, setPurchase }) {
     }
 
     return (
-        <div>
-            <form className="purchase-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="amount">Monto</label>
-                    <input
-                        type="number"
-                        name='amount'
-                        step="0.01"
-                        value={formData.amount}
-                        onChange={e => handleChange({
-                            target: {
-                                name: 'amount',
-                                value: Math.abs(parseFloat(e.target.value).toFixed(2))
-                            }
-                        })}
-                    />
-                </div>
+        <form className="purchase-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor="amount">Monto</label>
                 <input
-                    type="submit"
-                    value="Enviar"
-                    disabled={formData.amount <= 0}
+                    type="number"
+                    name='amount'
+                    step="0.01"
+                    value={formData.amount}
+                    onChange={e => handleChange({
+                        target: {
+                            name: 'amount',
+                            value: Math.abs(parseFloat(e.target.value).toFixed(2))
+                        }
+                    })}
                 />
-                <button
-                    type='button'
-                    className='secondary-btn'
-                    onClick={() => {
-                        setPurchase(null)
-                        reset()
-                    }}
-                >
-                    Cancelar
-                </button>
-            </form>
-        </div>
+            </div>
+            <input
+                type="submit"
+                value="Enviar"
+                disabled={formData.amount <= 0}
+            />
+            <button
+                type='button'
+                className='secondary-btn'
+                onClick={() => {
+                    setPurchase(null)
+                    reset()
+                }}
+            >
+                Cancelar
+            </button>
+        </form>
     )
 }

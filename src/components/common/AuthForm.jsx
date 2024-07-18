@@ -35,20 +35,22 @@ export function AuthForm() {
     }
 
     return (
-        <form className="user-form" onSubmit={handleAuthenticate}>
-            <input
-                type="text"
-                name="privateKey"
-                placeholder="Llave privada"
-                value={formData.privateKey.trim()}
-                onChange={handleChange}
-            />
-            {errors.privateKey?.type === 'required' &&
-                <small>* La llave privada es requerida.</small>
-            }
-            {(errors.privateKey?.type === 'maxLength' || errors.privateKey?.type === 'minLength') &&
-                <small>* La llave privada es inválida.</small>
-            }
+        <form className="auth-form" onSubmit={handleAuthenticate}>
+            <div className="form-group">
+                <input
+                    type="text"
+                    name="privateKey"
+                    placeholder="Llave privada"
+                    value={formData.privateKey.trim()}
+                    onChange={handleChange}
+                />
+                {errors.privateKey?.type === 'required' &&
+                    <small>* La llave privada es requerida.</small>
+                }
+                {(errors.privateKey?.type === 'maxLength' || errors.privateKey?.type === 'minLength') &&
+                    <small>* La llave privada es inválida.</small>
+                }
+            </div>
             <input type="submit" value="Guardar" />
         </form>
     )
