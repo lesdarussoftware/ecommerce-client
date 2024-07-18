@@ -1,4 +1,14 @@
-export const TRANSACTION_STATUS = ['Pendiente', 'Aprobada por el vendedor', 'Finalizada']
+export const TRANSACTION_STATUS = {
+    PENDING: 'Pendiente',
+    SELLER_APPROVED: 'Aprobada por el vendedor',
+    ENDED: 'Finalizada'
+}
+
+export const TRANSACTION_STATUS_LIST = [
+    TRANSACTION_STATUS.PENDING,
+    TRANSACTION_STATUS.SELLER_APPROVED,
+    TRANSACTION_STATUS.ENDED
+]
 
 export const STATUS_CODES = {
     SERVER_ERROR: 500,
