@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { AuthContext } from "../../providers/AuthProvider";
 
-import { IPFS_PUBLIC_GATEWAY } from "../../helpers/urls";
+import { IPFS_PUBLIC_GATEWAY } from "../../helpers/env";
 
 export function SaleItem({ sale, setPurchase }) {
 
