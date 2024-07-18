@@ -7,6 +7,7 @@ export function useSales() {
 
     const [sales, setSales] = useState([])
     const [register, setRegister] = useState(false)
+    const [purchase, setPurchase] = useState(null)
 
     async function getSales() {
         try {
@@ -40,7 +41,6 @@ export function useSales() {
                 })
                 const data = await res.json()
                 if (res.status === STATUS_CODES.CREATED) {
-                    setSales([data, ...sales.filter(s => s.id !== data.id)])
                     reset()
                     setRegister(false)
                 } else {
@@ -57,6 +57,8 @@ export function useSales() {
         getSales,
         createSale,
         register,
-        setRegister
+        setRegister,
+        purchase,
+        setPurchase
     }
 }

@@ -1,11 +1,17 @@
 import { useContext } from "react"
+import { JsonRpcProvider, Wallet, Contract } from 'ethers'
 
 import { AuthContext } from "../../providers/AuthProvider"
+import { ContractContext } from "../../providers/ContractProvider"
 import { useForm } from "../../hooks/useForm"
+
+import { CONTRACT_ADDRESS, BLOCKCHAIN_PROVIDER } from "../../helpers/env"
+import { abi } from '../../helpers/contract.json'
 
 export function AuthForm() {
 
     const { setAuth } = useContext(AuthContext)
+    const { setContract } = useContext(ContractContext)
 
     const { formData, errors, validate, handleChange, reset } = useForm({
         defaultData: { privateKey: '' },
@@ -21,7 +27,9 @@ export function AuthForm() {
     const handleAuthenticate = (e) => {
         e.preventDefault()
         if (validate()) {
-            setAuth(formData.privateKey)
+            const runner = new Wallet(formData.privateKey.trim(), new JsonRpcProvider(BLOCKCHAIN_PROVIDER))
+            setAuth(runner.address)
+            setContract(new Contract(CONTRACT_ADDRESS, abi, runner))
             reset()
         }
     }
@@ -32,7 +40,7 @@ export function AuthForm() {
                 type="text"
                 name="privateKey"
                 placeholder="Llave privada"
-                value={formData.privateKey}
+                value={formData.privateKey.trim()}
                 onChange={handleChange}
             />
             {errors.privateKey?.type === 'required' &&

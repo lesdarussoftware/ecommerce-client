@@ -1,0 +1,28 @@
+.store-container,
+.sale-item-container,
+.sale-item-content,
+.sale-item-images,
+.sale-item-info {
+    display: flex;
+    gap: 10px;
+}
+
+.sale-item-container,
+.sale-item-images,
+.sale-item-info {
+    flex-direction: column;
+}
+
+.store-container {
+    margin-top: 10px;
+}
+
+.sale-item-container {
+    padding: 10px;
+    border: 1px solid #fff;
+    border-radius: 2px;
+}
+
+.sale-item-images {
+    gap: 0;
+}

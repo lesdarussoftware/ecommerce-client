@@ -1,3 +1,5 @@
+@import url('./sale-item.css');
+
 :root {
     --style-color: #00C52C;
     --style-color-hover: #32c853;
@@ -79,6 +81,17 @@ input[type="submit"]:hover,
 button:hover,
 nav .nav-menu li:hover {
     background-color: var(--style-color-hover);
+}
+
+.secondary-btn {
+    background-color: #000;
+    border: 1px solid var(--style-color);
+    color: var(--style-color);
+}
+
+.secondary-btn:hover {
+    background-color: #FFF;
+    border: 1px solid var(--style-color-hover);
 }
 
 .form-group {

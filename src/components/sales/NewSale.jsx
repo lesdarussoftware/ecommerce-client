@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { useForm } from "../../hooks/useForm"
 import { AuthContext } from "../../providers/AuthProvider"
 
@@ -30,10 +30,6 @@ export function NewSale({ handleSubmit }) {
             ]
         })
     }
-
-    useEffect(() => {
-        console.log(formData)
-    }, [formData])
 
     return (
         <div>

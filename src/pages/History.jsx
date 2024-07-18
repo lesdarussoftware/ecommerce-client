@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from 'ethers'
 
 import { AuthContext } from "../providers/AuthProvider";
-import { useContract } from "../hooks/useContract";
+import { ContractContext } from "../providers/ContractProvider";
 
 import { Header } from "../components/common/Header";
 
@@ -15,7 +15,7 @@ export function History() {
 
     const navigate = useNavigate()
 
-    const { contract, address } = useContract()
+    const { contract } = useContext(ContractContext)
 
     const [transactions, setTransactions] = useState([])
 
@@ -27,8 +27,8 @@ export function History() {
                 const result = await contract.getMyTransactions()
                 setTransactions(result.map(item => ({
                     id: parseInt(item[0]) + 1,
-                    type: item[1] === address ? 'Compra' : item[2] === address ? 'Venta' : '',
-                    counterpart: item[1] === address ? item[2] : item[2] === address ? item[1] : '',
+                    type: item[1] === auth ? 'Compra' : item[2] === auth ? 'Venta' : '',
+                    counterpart: item[1] === auth ? item[2] : item[2] === auth ? item[1] : '',
                     amount: parseFloat(ethers.formatEther(item[3])).toFixed(2),
                     status: TRANSACTION_STATUS[parseInt(item[4])],
                     date: new Date(parseInt(item[5]) * 1000).toLocaleString({}, { hour12: false })

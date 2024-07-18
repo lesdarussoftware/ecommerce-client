@@ -1,15 +1,16 @@
+import { useContext } from 'react'
 import { ethers } from 'ethers'
 
-import { useContract } from "../hooks/useContract"
-import { useForm } from "../hooks/useForm"
+import { useForm } from '../../hooks/useForm'
+import { ContractContext } from '../../providers/ContractProvider'
 
-export function Purchase({ sale }) {
+export function Purchase({ sale, setPurchase }) {
 
-    const { contract } = useContract()
+    const { contract } = useContext(ContractContext)
     const { formData, handleChange, reset } = useForm({
         defaultData: {
             amount: 0.00,
-            to: sale.seller
+            to: sale.seller.trim()
         },
         rules: {}
     })
@@ -19,6 +20,7 @@ export function Purchase({ sale }) {
         try {
             const amountInWei = ethers.parseEther(formData.amount.toString())
             await contract.receivePayment(amountInWei, formData.to, { value: amountInWei })
+            setPurchase(null)
             reset()
         } catch (e) {
             console.log(e)
@@ -30,9 +32,34 @@ export function Purchase({ sale }) {
             <form className="purchase-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="amount">Monto</label>
-                    <input type="number" name='amount' step="0.01" value={formData.amount} onChange={handleChange} />
+                    <input
+                        type="number"
+                        name='amount'
+                        step="0.01"
+                        value={formData.amount}
+                        onChange={e => handleChange({
+                            target: {
+                                name: 'amount',
+                                value: Math.abs(parseFloat(e.target.value).toFixed(2))
+                            }
+                        })}
+                    />
                 </div>
-                <input type="submit" value="Enviar" />
+                <input
+                    type="submit"
+                    value="Enviar"
+                    disabled={formData.amount <= 0}
+                />
+                <button
+                    type='button'
+                    className='secondary-btn'
+                    onClick={() => {
+                        setPurchase(null)
+                        reset()
+                    }}
+                >
+                    Cancelar
+                </button>
             </form>
         </div>
     )
