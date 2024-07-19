@@ -27,8 +27,8 @@ export function History() {
             } else if (contract) {
                 const result = await contract.getMyTransactions()
                 setTransactions(result.map(item => ({
-                    id: item[0],
-                    sale_id: item[6],
+                    id: parseInt(item[0]),
+                    sale_id: parseInt(item[6]),
                     type: item[1] === auth ? 'Compra' : item[2] === auth ? 'Venta' : '',
                     counterpart: item[1] === auth ? item[2] : item[2] === auth ? item[1] : '',
                     amount: ethers.formatEther(item[3]),

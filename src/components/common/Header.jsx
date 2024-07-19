@@ -46,12 +46,20 @@ export function Header() {
                         Tienda
                     </li>
                     {auth &&
-                        <li
-                            style={{ borderBottom: pathname === '/historial' ? '1px solid #00C52C' : '' }}
-                            onClick={() => navigate('/historial')}
-                        >
-                            Historial
-                        </li>
+                        <>
+                            <li
+                                style={{ borderBottom: pathname === '/historial' ? '1px solid #00C52C' : '' }}
+                                onClick={() => navigate('/historial')}
+                            >
+                                Historial
+                            </li>
+                            <li
+                                style={{ borderBottom: pathname === '/ventas' ? '1px solid #00C52C' : '' }}
+                                onClick={() => navigate('/ventas')}
+                            >
+                                Ventas
+                            </li>
+                        </>
                     }
                 </ul>
             </nav>
