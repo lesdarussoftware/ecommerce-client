@@ -95,13 +95,6 @@ button:disabled {
     cursor: auto;
 }
 
-.auth-form {
-    width: fit-content;
-    display: flex;
-    gap: 5px;
-    align-items: start;
-}
-
 .secondary-btn {
     background-color: #000;
     border: 1px solid var(--style-color);
@@ -130,12 +123,6 @@ button:disabled {
 
 .presentation-container .presentation-subtitle {
     font-size: 2rem;
-}
-
-.home-auth-form-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
 }
 
 .form-group {

@@ -1,17 +1,13 @@
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
 
-import { AuthContext } from "../providers/AuthProvider"
 import { useSales } from "../hooks/useSales"
 
 import { Header } from "../components/common/Header"
 import { NewSale } from "../components/sales/NewSale"
-import { AuthForm } from "../components/common/AuthForm"
 import { SaleItem } from "../components/sales/SaleItem"
 import { Purchase } from "../components/sales/Purchase"
 
 export function Store() {
-
-    const { auth } = useContext(AuthContext)
 
     const { sales, getSales, createSale, register, setRegister, purchase, setPurchase } = useSales()
 
@@ -23,15 +19,10 @@ export function Store() {
         <>
             <Header />
             <main>
-                {auth ?
-                    <>
-                        {!purchase && !register &&
-                            <button type="button" onClick={() => setRegister(true)}>
-                                Vender
-                            </button>
-                        }
-                    </> :
-                    <AuthForm />
+                {!purchase && !register &&
+                    <button type="button" onClick={() => setRegister(true)}>
+                        Vender
+                    </button>
                 }
                 {register &&
                     <NewSale
