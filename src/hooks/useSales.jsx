@@ -32,7 +32,9 @@ export function useSales() {
         if (validate()) {
             const submitData = new FormData()
             submitData.append('seller', newSale.seller)
+            submitData.append('title', newSale.title)
             submitData.append('description', newSale.description)
+            submitData.append('price', newSale.price)
             newSale.images.forEach(i => submitData.append('files', i))
             try {
                 const res = await fetch(SALE_URL, {

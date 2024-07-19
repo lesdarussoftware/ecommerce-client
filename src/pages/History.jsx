@@ -27,10 +27,11 @@ export function History() {
             } else if (contract) {
                 const result = await contract.getMyTransactions()
                 setTransactions(result.map(item => ({
-                    id: parseInt(item[0]),
+                    id: item[0],
+                    sale_id: item[6],
                     type: item[1] === auth ? 'Compra' : item[2] === auth ? 'Venta' : '',
                     counterpart: item[1] === auth ? item[2] : item[2] === auth ? item[1] : '',
-                    amount: parseFloat(ethers.formatEther(item[3])).toFixed(2),
+                    amount: ethers.formatEther(item[3]),
                     status: TRANSACTION_STATUS_LIST[parseInt(item[4])],
                     date: new Date(parseInt(item[5]) * 1000).toLocaleString({}, { hour12: false })
                 })))
@@ -43,6 +44,11 @@ export function History() {
             id: 'id',
             label: '#',
             accessor: 'id'
+        },
+        {
+            id: 'sale_id',
+            label: 'N° venta',
+            accessor: 'sale_id'
         },
         {
             id: 'type',

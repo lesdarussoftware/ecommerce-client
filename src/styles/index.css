@@ -144,7 +144,7 @@ button:disabled {
     gap: 5px
 }
 
-.purchase-form,
+/* .purchase-form, */
 .new-sale-form {
     display: flex;
     flex-direction: column;
@@ -152,7 +152,7 @@ button:disabled {
     width: fit-content;
 }
 
-.purchase-form input[type="submit"],
+/* .purchase-form input[type="submit"], */
 .new-sale-form input[type="submit"] {
     width: 100%;
 }

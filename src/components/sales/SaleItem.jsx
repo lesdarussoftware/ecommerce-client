@@ -17,7 +17,9 @@ export function SaleItem({ sale, setPurchase }) {
                     ))}
                 </div>
                 <div className="sale-item-info">
+                    <p>{sale.title}</p>
                     <p>{sale.description}</p>
+                    <p>{sale.price.toFixed(8)} ETH</p>
                 </div>
             </div>
             {auth && auth !== sale.seller &&
