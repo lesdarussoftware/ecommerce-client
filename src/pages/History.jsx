@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ethers } from 'ethers'
 
@@ -6,6 +6,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import { ContractContext } from "../providers/ContractProvider";
 
 import { Header } from "../components/common/Header";
+import { TableComponent } from "../components/common/TableComponent";
 
 import { TRANSACTION_STATUS, TRANSACTION_STATUS_LIST } from "../helpers/constants";
 
@@ -37,6 +38,62 @@ export function History() {
         })()
     }, [contract])
 
+    const columns = useMemo(() => [
+        {
+            id: 'id',
+            label: '#',
+            accessor: 'id'
+        },
+        {
+            id: 'type',
+            label: 'Tipo',
+            accessor: 'type'
+        },
+        {
+            id: 'counterpart',
+            label: 'Contraparte',
+            accessor: 'counterpart'
+        },
+        {
+            id: 'amount',
+            label: 'Monto (ETH)',
+            accessor: 'amount'
+        },
+        {
+            id: 'date',
+            label: 'Fecha',
+            accessor: 'date'
+        },
+        {
+            id: 'status',
+            label: 'Estado',
+            accessor: 'status'
+        },
+        {
+            id: 'action',
+            label: 'Acción',
+            accessor: (row) => (
+                <>
+                    {row.status === TRANSACTION_STATUS.PENDING && row.type === 'Venta' &&
+                        <button type="button" onClick={() => handleApproveBySeller(row.id)}>
+                            Indicar entrega
+                        </button>
+                    }
+                    {row.status === TRANSACTION_STATUS.SELLER_APPROVED && row.type === 'Compra' &&
+                        <button type="button" onClick={() => handleApproveByBuyer(row.id)}>
+                            Aprobar recepción
+                        </button>
+                    }
+                    {row.status === TRANSACTION_STATUS.SELLER_APPROVED && row.type === 'Venta' &&
+                        <button type="button">
+                            Apelar
+                        </button>
+                    }
+                </>
+            )
+        }
+    ], [])
+
     const handleApproveBySeller = async (id) => {
         await contract.approveBySeller(id)
         setTransactions(transactions.map(t => {
@@ -57,50 +114,11 @@ export function History() {
         <>
             <Header />
             <main>
-                <table className="history-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tipo</th>
-                            <th>Contraparte</th>
-                            <th>Monto (ETH)</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map(t => {
-                            return (
-                                <tr key={t.id}>
-                                    <td>{t.id + 1}</td>
-                                    <td>{t.type}</td>
-                                    <td>{t.counterpart}</td>
-                                    <td>{t.amount}</td>
-                                    <td>{t.date}</td>
-                                    <td>{t.status}</td>
-                                    <td>
-                                        {t.status === TRANSACTION_STATUS.PENDING && t.type === 'Venta' &&
-                                            <button type="button" onClick={() => handleApproveBySeller(t.id)}>
-                                                Indicar entrega
-                                            </button>
-                                        }
-                                        {t.status === TRANSACTION_STATUS.SELLER_APPROVED && t.type === 'Compra' &&
-                                            <button type="button" onClick={() => handleApproveByBuyer(t.id)}>
-                                                Aprobar recepción
-                                            </button>
-                                        }
-                                        {t.status === TRANSACTION_STATUS.SELLER_APPROVED && t.type === 'Venta' &&
-                                            <button type="button">
-                                                Apelar
-                                            </button>
-                                        }
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <TableComponent
+                    columns={columns}
+                    rows={transactions}
+                    styleClass="history-table"
+                />
             </main>
         </>
     )
