@@ -44,14 +44,16 @@ export function AuthForm() {
                     value={formData.privateKey.trim()}
                     onChange={handleChange}
                 />
-                {errors.privateKey?.type === 'required' &&
-                    <small>* La llave privada es requerida.</small>
-                }
-                {(errors.privateKey?.type === 'maxLength' || errors.privateKey?.type === 'minLength') &&
-                    <small>* La llave privada es inválida.</small>
-                }
             </div>
-            <input type="submit" value="Guardar" />
+            <input
+                type="submit"
+                value="Guardar"
+                disabled={
+                    formData.privateKey.length === 0 ||
+                    errors.privateKey?.type === 'required' ||
+                    (errors.privateKey?.type === 'maxLength' || errors.privateKey?.type === 'minLength')
+                }
+            />
         </form>
     )
 }

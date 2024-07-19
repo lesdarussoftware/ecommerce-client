@@ -13,7 +13,15 @@ export function Home() {
         <>
             <Header />
             <main>
-                {!auth && <AuthForm />}
+                <section className="presentation-container">
+                    <h1 className="presentation-title">MarketPlace descentralizado</h1>
+                    <h2 className="presentation-subtitle">Cobra y paga con ether</h2>
+                </section>
+                {!auth &&
+                    <section className="home-auth-form-container">
+                        <AuthForm />
+                    </section>
+                }
             </main>
         </>
     )
