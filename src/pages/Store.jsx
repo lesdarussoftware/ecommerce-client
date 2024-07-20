@@ -1,5 +1,6 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 
+import { AuthContext } from "../providers/AuthProvider"
 import { useSales } from "../hooks/useSales"
 
 import { Header } from "../components/common/Header"
@@ -8,6 +9,8 @@ import { SaleItem } from "../components/sales/SaleItem"
 import { Purchase } from "../components/sales/Purchase"
 
 export function Store() {
+
+    const { account } = useContext(AuthContext)
 
     const { sales, getSales, createSale, register, setRegister, purchase, setPurchase } = useSales()
 
@@ -19,10 +22,14 @@ export function Store() {
         <>
             <Header />
             <main>
-                {!purchase && !register &&
-                    <button type="button" onClick={() => setRegister(true)}>
-                        Vender
-                    </button>
+                {account &&
+                    <>
+                        {!purchase && !register &&
+                            <button type="button" onClick={() => setRegister(true)}>
+                                Vender
+                            </button>
+                        }
+                    </>
                 }
                 {register &&
                     <NewSale

@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { ethers } from 'ethers'
 
-import { ContractContext } from '../../providers/ContractProvider'
+import { AuthContext } from '../../providers/AuthProvider'
 import { useForm } from '../../hooks/useForm'
 
 export function Purchase({ sale, setPurchase }) {
 
-    const { contract } = useContext(ContractContext)
+    const { contract } = useContext(AuthContext)
     const { formData, reset } = useForm({
         defaultData: {
             amount: sale.price,

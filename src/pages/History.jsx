@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { ethers } from 'ethers'
 
 import { AuthContext } from "../providers/AuthProvider";
-import { ContractContext } from "../providers/ContractProvider";
 
 import { Header } from "../components/common/Header";
 import { TableComponent } from "../components/common/TableComponent";
@@ -12,25 +11,25 @@ import { TRANSACTION_STATUS, TRANSACTION_STATUS_LIST } from "../helpers/constant
 
 export function History() {
 
-    const { auth } = useContext(AuthContext)
+    const { account } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
-    const { contract } = useContext(ContractContext)
+    const { contract } = useContext(AuthContext)
 
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
         (async () => {
-            if (!auth) {
+            if (!account) {
                 return navigate('/')
             } else if (contract) {
                 const result = await contract.getMyTransactions()
                 setTransactions(result.map(item => ({
                     id: parseInt(item[0]),
                     sale_id: parseInt(item[6]),
-                    type: item[1] === auth ? 'Compra' : item[2] === auth ? 'Venta' : '',
-                    counterpart: item[1] === auth ? item[2] : item[2] === auth ? item[1] : '',
+                    type: item[1] === account ? 'Compra' : item[2] === account ? 'Venta' : '',
+                    counterpart: item[1] === account ? item[2] : item[2] === account ? item[1] : '',
                     amount: ethers.formatEther(item[3]),
                     status: TRANSACTION_STATUS_LIST[parseInt(item[4])],
                     date: new Date(parseInt(item[5]) * 1000).toLocaleString({}, { hour12: false })

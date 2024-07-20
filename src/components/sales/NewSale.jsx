@@ -4,12 +4,12 @@ import { AuthContext } from "../../providers/AuthProvider"
 
 export function NewSale({ handleSubmit, setRegister }) {
 
-    const { auth } = useContext(AuthContext)
+    const { account } = useContext(AuthContext)
 
     const { formData, setFormData, validate, reset, errors, disabled, handleChange } = useForm({
         defaultData: {
             id: '',
-            seller: auth,
+            seller: account,
             description: '',
             title: '',
             price: '',

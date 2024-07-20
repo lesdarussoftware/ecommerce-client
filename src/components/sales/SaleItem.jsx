@@ -6,7 +6,7 @@ import { IPFS_PUBLIC_GATEWAY } from "../../helpers/env";
 
 export function SaleItem({ sale, setPurchase }) {
 
-    const { auth } = useContext(AuthContext)
+    const { account } = useContext(AuthContext)
 
     return (
         <div className="sale-item-container">
@@ -22,7 +22,7 @@ export function SaleItem({ sale, setPurchase }) {
                     <p>{sale.price.toFixed(8)} ETH</p>
                 </div>
             </div>
-            {auth && auth !== sale.seller &&
+            {account && account !== sale.seller &&
                 <button type="button" onClick={() => setPurchase(sale)}>
                     Comprar
                 </button>

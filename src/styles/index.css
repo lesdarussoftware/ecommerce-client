@@ -20,7 +20,7 @@ body {
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     margin: 10px 20px 30px 20px;
     align-items: center;
 }
@@ -29,18 +29,6 @@ nav .nav-menu {
     display: flex;
     gap: 5px;
     list-style: none;
-}
-
-.account-balance {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.account-balance .user-data {
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 input,
@@ -155,12 +143,4 @@ button:disabled {
 .history-table th,
 .history-table td {
     padding: 15px;
-}
-
-.account-balance .user-data button {
-    padding: 7px;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    border-radius: 999px;
 }
