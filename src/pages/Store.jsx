@@ -15,7 +15,7 @@ export function Store() {
     const { sales, getSales, createSale, register, setRegister, purchase, setPurchase } = useSales()
 
     useEffect(() => {
-        getSales()
+        getSales({ query: `?seller=${account}` })
     }, [])
 
     return (

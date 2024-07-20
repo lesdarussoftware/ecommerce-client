@@ -9,9 +9,9 @@ export function useSales() {
     const [register, setRegister] = useState(false)
     const [purchase, setPurchase] = useState(null)
 
-    async function getSales() {
+    async function getSales({ query }) {
         try {
-            const res = await fetch(SALE_URL, {
+            const res = await fetch(SALE_URL + (query ? query : ''), {
                 headers: {
                     'Content-Type': 'application/json'
                 }

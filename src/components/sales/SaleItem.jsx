@@ -22,11 +22,9 @@ export function SaleItem({ sale, setPurchase }) {
                     <p>{sale.price.toFixed(8)} ETH</p>
                 </div>
             </div>
-            {account && account !== sale.seller &&
-                <button type="button" onClick={() => setPurchase(sale)}>
-                    Comprar
-                </button>
-            }
+            <button type="button" onClick={() => setPurchase(sale)}>
+                Comprar
+            </button>
         </div>
     )
 }

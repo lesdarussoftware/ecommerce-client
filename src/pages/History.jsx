@@ -42,7 +42,7 @@ export function History() {
         {
             id: 'id',
             label: '#',
-            accessor: 'id'
+            accessor: (row) => row.id + 1
         },
         {
             id: 'sale_id',
@@ -101,7 +101,7 @@ export function History() {
 
     const handleApproveBySeller = async (id) => {
         await contract.approveBySeller(id)
-        setTransactions(transactions.map(t => {
+        setTransactions(prev => prev.map(t => {
             if (t.id !== parseInt(id)) return t
             return { ...t, status: TRANSACTION_STATUS.SELLER_APPROVED }
         }))
@@ -109,7 +109,7 @@ export function History() {
 
     const handleApproveByBuyer = async (id) => {
         await contract.approveByBuyer(id)
-        setTransactions(transactions.map(t => {
+        setTransactions(prev => prev.map(t => {
             if (t.id !== parseInt(id)) return t
             return { ...t, status: TRANSACTION_STATUS.ENDED }
         }))
