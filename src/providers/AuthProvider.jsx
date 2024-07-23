@@ -1,8 +1,11 @@
 import { createContext, useEffect, useState } from "react"
 import { ethers } from 'ethers'
 
+import { useAuth } from "../hooks/useAuth"
+
 import { CONTRACT_ADDRESS } from "../helpers/env"
 import { abi } from '../helpers/contract.json'
+import { STATUS_CODES } from "../helpers/constants"
 
 export const AuthContext = createContext({
     account: null,
@@ -12,15 +15,20 @@ export const AuthContext = createContext({
     signer: null,
     setSigner: () => { },
     contract: null,
-    setContract: () => { }
+    setContract: () => { },
+    token: null,
+    setToken: () => { }
 })
 
 export function AuthProvider({ children }) {
+
+    const { generateAuthToken } = useAuth()
 
     const [account, setAccount] = useState(null)
     const [provider, setProvider] = useState(null)
     const [signer, setSigner] = useState(null)
     const [contract, setContract] = useState(null)
+    const [token, setToken] = useState(null)
 
     useEffect(() => {
         connectMetaMask()
@@ -50,9 +58,31 @@ export function AuthProvider({ children }) {
             setSigner(newSigner)
             setContract(newContract)
             setAccount(newSigner.address)
+            const { status, data } = await generateAuthToken({ account: newSigner.address })
+            if (status === STATUS_CODES.OK) setToken(data.token)
+            window.ethereum.on('accountsChanged', handleAccountsChanged);
         }
         setProvider(newProvider)
+        return () => {
+            if (window.ethereum) {
+                window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
+            }
+        }
     }
+
+    const handleAccountsChanged = async (accounts) => {
+        if (accounts.length > 0 && accounts[0] !== account) {
+            const newProvider = new ethers.BrowserProvider(window.ethereum)
+            const newSigner = await newProvider.getSigner()
+            const newContract = new ethers.Contract(CONTRACT_ADDRESS, abi, newSigner)
+            setProvider(newProvider)
+            setSigner(newSigner)
+            setContract(newContract)
+            setAccount(accounts[0])
+            const { status, data } = await generateAuthToken({ account: accounts[0] })
+            if (status === STATUS_CODES.OK) setToken(data.token)
+        }
+    };
 
     return (
         <AuthContext.Provider value={{
@@ -63,7 +93,9 @@ export function AuthProvider({ children }) {
             signer,
             setSigner,
             contract,
-            setContract
+            setContract,
+            token,
+            setToken
         }}>
             {children}
         </AuthContext.Provider>

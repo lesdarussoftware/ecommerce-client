@@ -1,29 +1,31 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { AuthContext } from "../providers/AuthProvider";
+import { useApi } from "./useApi";
 
 import { SALE_URL } from "../helpers/urls";
 import { STATUS_CODES } from "../helpers/constants";
 
 export function useSales() {
 
+    const { token } = useContext(AuthContext)
+
+    const { handleQuery } = useApi()
+
     const [sales, setSales] = useState([])
     const [register, setRegister] = useState(false)
     const [purchase, setPurchase] = useState(null)
 
     async function getSales({ query }) {
-        try {
-            const res = await fetch(SALE_URL + (query ? query : ''), {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const data = await res.json()
-            if (res.status === STATUS_CODES.OK) {
-                setSales(data)
-            } else {
-                console.log(data)
-            }
-        } catch (e) {
-            console.log(e)
+        const { status, data } = await handleQuery({
+            url: SALE_URL + (query ? query : ''),
+            method: 'GET',
+            contentType: 'application/json'
+        })
+        if (status === STATUS_CODES.OK) {
+            setSales(data)
+        } else {
+            console.log(data)
         }
     }
 
@@ -36,21 +38,17 @@ export function useSales() {
             submitData.append('description', newSale.description)
             submitData.append('price', newSale.price)
             newSale.images.forEach(i => submitData.append('files', i))
-            try {
-                const res = await fetch(SALE_URL, {
-                    method: 'POST',
-                    body: submitData
-                })
-                const data = await res.json()
-                if (res.status === STATUS_CODES.CREATED) {
-                    reset()
-                    setRegister(false)
-                } else {
-                    console.log(data)
-                }
-            } catch (e) {
-                console.log(e)
+            const { status, data } = await handleQuery({
+                url: SALE_URL,
+                method: 'POST',
+                authorization: token,
+                body: submitData
+            })
+            if (status === STATUS_CODES.CREATED) {
+                reset()
+                setRegister(false)
             }
+            console.log(data)
         }
     }
 

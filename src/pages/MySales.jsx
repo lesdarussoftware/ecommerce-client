@@ -18,9 +18,9 @@ export function MySales() {
         if (!account) {
             return navigate('/')
         } else {
-            getSales({ query: `?seller=${account}&only=true` })
+            getSales({ query: `?seller=${account}` })
         }
-    }, [])
+    }, [account])
 
     const columns = useMemo(() => [
         {

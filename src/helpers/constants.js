@@ -16,5 +16,6 @@ export const STATUS_CODES = {
     NOT_FOUND: 404,
     UNIQUE_VIOLATION: 409,
     OK: 200,
-    CREATED: 201
+    CREATED: 201,
+    FORBIDDEN: 403
 }
