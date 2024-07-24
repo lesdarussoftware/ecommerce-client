@@ -19,3 +19,8 @@ export const STATUS_CODES = {
     CREATED: 201,
     FORBIDDEN: 403
 }
+
+export const OPEN_TYPES = {
+    REGISTER: 'REGISTER',
+    PURCHASE: 'PURCHASE'
+}

@@ -13,8 +13,8 @@ export function useSales() {
     const { handleQuery } = useApi()
 
     const [sales, setSales] = useState([])
-    const [register, setRegister] = useState(false)
     const [purchase, setPurchase] = useState(null)
+    const [open, setOpen] = useState(null)
 
     async function getSales({ query }) {
         const { status, data } = await handleQuery({
@@ -45,8 +45,7 @@ export function useSales() {
                 body: submitData
             })
             if (status === STATUS_CODES.CREATED) {
-                reset()
-                setRegister(false)
+                reset(setOpen)
             }
             console.log(data)
         }
@@ -56,8 +55,8 @@ export function useSales() {
         sales,
         getSales,
         createSale,
-        register,
-        setRegister,
+        open,
+        setOpen,
         purchase,
         setPurchase
     }

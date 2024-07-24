@@ -3,9 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 import { AuthContext } from "../../providers/AuthProvider"
 
+import { OWNER_ADDRESS } from "../../helpers/env"
+
 export function Header() {
 
-    const { account} = useContext(AuthContext)
+    const { account } = useContext(AuthContext)
 
     const navigate = useNavigate()
     const { pathname } = useLocation()
@@ -40,6 +42,14 @@ export function Header() {
                             >
                                 Ventas
                             </li>
+                            {account === OWNER_ADDRESS &&
+                                <li
+                                    style={{ borderBottom: pathname === '/moderacion' ? '1px solid #00C52C' : '' }}
+                                    onClick={() => navigate('/moderacion')}
+                                >
+                                    Moderación
+                                </li>
+                            }
                         </>
                     }
                 </ul>

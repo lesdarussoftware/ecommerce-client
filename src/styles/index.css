@@ -1,4 +1,5 @@
 @import url('./sale-item.css');
+@import url('./modal.css');
 
 :root {
     --style-color: #00C52C;

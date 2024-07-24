@@ -43,10 +43,11 @@ export function useForm({ defaultData, rules }) {
         return flag
     }
 
-    function reset() {
+    function reset(setOpen) {
         setErrors(defaultData)
         setFormData(defaultData)
         setDisabled(false)
+        if (setOpen) setOpen(null)
     }
 
     return {

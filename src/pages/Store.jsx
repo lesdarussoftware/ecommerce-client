@@ -8,11 +8,13 @@ import { NewSale } from "../components/sales/NewSale"
 import { SaleItem } from "../components/sales/SaleItem"
 import { Purchase } from "../components/sales/Purchase"
 
+import { OPEN_TYPES } from "../helpers/constants"
+
 export function Store() {
 
     const { account } = useContext(AuthContext)
 
-    const { sales, getSales, createSale, register, setRegister, purchase, setPurchase } = useSales()
+    const { sales, getSales, createSale, open, setOpen, purchase, setPurchase } = useSales()
 
     useEffect(() => {
         getSales({ query: `?seller=${account}&only_not=true` })
@@ -23,26 +25,32 @@ export function Store() {
             <Header />
             <main>
                 {account &&
-                    <>
-                        {!purchase && !register &&
-                            <button type="button" onClick={() => setRegister(true)}>
-                                Vender
-                            </button>
-                        }
-                    </>
+                    <button type="button" onClick={() => setOpen(OPEN_TYPES.REGISTER)}>
+                        Vender
+                    </button>
                 }
-                {register &&
-                    <NewSale
-                        handleSubmit={(e, formData, validate, reset) => createSale(e, formData, validate, reset)}
-                        setRegister={setRegister}
+                <NewSale
+                    handleSubmit={(e, formData, validate, reset) => createSale(e, formData, validate, reset)}
+                    isOpen={open === OPEN_TYPES.REGISTER}
+                    setOpen={setOpen}
+                />
+                {purchase &&
+                    <Purchase
+                        sale={purchase}
+                        isOpen={open === OPEN_TYPES.PURCHASE}
+                        setOpen={setOpen}
                     />
                 }
-                {purchase && <Purchase sale={purchase} setPurchase={setPurchase} />}
-                {!register && !purchase &&
-                    <div className="store-container">
-                        {sales.map(s => <SaleItem key={s.id} sale={s} setPurchase={setPurchase} />)}
-                    </div>
-                }
+                <div className="store-container">
+                    {sales.map(s => (
+                        <SaleItem
+                            key={s.id}
+                            sale={s}
+                            setPurchase={setPurchase}
+                            setOpen={setOpen}
+                        />
+                    ))}
+                </div>
             </main>
         </>
     )

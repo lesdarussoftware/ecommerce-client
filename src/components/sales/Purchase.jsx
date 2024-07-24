@@ -3,8 +3,9 @@ import { ethers } from 'ethers'
 
 import { AuthContext } from '../../providers/AuthProvider'
 import { useForm } from '../../hooks/useForm'
+import { ModalComponent } from '../common/ModalComponent'
 
-export function Purchase({ sale, setPurchase }) {
+export function Purchase({ sale, setOpen, isOpen }) {
 
     const { contract } = useContext(AuthContext)
     const { formData, reset } = useForm({
@@ -20,28 +21,24 @@ export function Purchase({ sale, setPurchase }) {
         try {
             const amountInWei = ethers.parseEther(formData.amount.toFixed(8))
             await contract.receivePayment(amountInWei, formData.to, formData.sale_id, { value: amountInWei })
-            setPurchase(null)
-            reset()
+            reset(setOpen)
         } catch (e) {
             console.log(e)
         }
     }
 
     return (
-        <>
+        <ModalComponent isOpen={isOpen} onClose={() => reset(setOpen)}>
             <button type="button" onClick={() => handleConfirm()}>
                 Confirmar
             </button>
             <button
                 type='button'
                 className='secondary-btn'
-                onClick={() => {
-                    setPurchase(null)
-                    reset()
-                }}
+                onClick={() => reset(setOpen)}
             >
                 Cancelar
             </button>
-        </>
+        </ModalComponent>
     )
 }

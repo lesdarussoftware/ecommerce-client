@@ -1,13 +1,7 @@
-import { useContext } from "react";
-
-import { AuthContext } from "../../providers/AuthProvider";
-
+import { OPEN_TYPES } from "../../helpers/constants";
 import { IPFS_PUBLIC_GATEWAY } from "../../helpers/env";
 
-export function SaleItem({ sale, setPurchase }) {
-
-    const { account } = useContext(AuthContext)
-
+export function SaleItem({ sale, setPurchase, setOpen }) {
     return (
         <div className="sale-item-container">
             <div className="sale-item-content">
@@ -22,7 +16,10 @@ export function SaleItem({ sale, setPurchase }) {
                     <p>{sale.price.toFixed(8)} ETH</p>
                 </div>
             </div>
-            <button type="button" onClick={() => setPurchase(sale)}>
+            <button type="button" onClick={() => {
+                setPurchase(sale)
+                setOpen(OPEN_TYPES.PURCHASE)
+            }}>
                 Comprar
             </button>
         </div>
