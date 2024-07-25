@@ -16,9 +16,9 @@ export function useSales() {
     const [purchase, setPurchase] = useState(null)
     const [open, setOpen] = useState(null)
 
-    async function getSales({ query }) {
+    async function getSales({ query = '' }) {
         const { status, data } = await handleQuery({
-            url: SALE_URL + (query ? query : ''),
+            url: SALE_URL + query,
             method: 'GET',
             contentType: 'application/json'
         })
