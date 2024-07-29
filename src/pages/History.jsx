@@ -122,7 +122,7 @@ export function History() {
                 <TableComponent
                     columns={columns}
                     rows={transactions}
-                    styleClass="history-table"
+                    styleClass="standard-table"
                 />
             </main>
         </>

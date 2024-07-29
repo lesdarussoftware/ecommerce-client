@@ -32,10 +32,23 @@
 
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     background: none;
     border: none;
     font-size: 16px;
     cursor: pointer;
+    padding: 7px;
+    border-radius: 8px;
+}
+
+.modal-h3 {
+    text-align: center;
+    margin: 30px 0 20px 0;
+    letter-spacing: 1.5px;
+}
+
+.modal-btn-panel {
+    display: flex;
+    gap: 7px;
 }

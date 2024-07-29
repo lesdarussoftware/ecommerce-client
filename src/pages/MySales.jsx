@@ -1,11 +1,15 @@
 import { useContext, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 import { AuthContext } from "../providers/AuthProvider";
+import { useSales } from "../hooks/useSales";
 
 import { Header } from "../components/common/Header";
 import { TableComponent } from "../components/common/TableComponent";
-import { useNavigate } from "react-router-dom";
-import { useSales } from "../hooks/useSales";
+
+import { SALE_COLUMNS } from "../helpers/constants";
 
 export function MySales() {
 
@@ -23,10 +27,20 @@ export function MySales() {
     }, [account])
 
     const columns = useMemo(() => [
+        ...SALE_COLUMNS,
         {
-            id: 'id',
-            label: '#',
-            accessor: 'id'
+            id: 'actions',
+            label: 'Acciones',
+            accessor: (row) => (
+                <div className="actions-container">
+                    <span className="action-btn delete-action-btn">
+                        <MdDeleteOutline />
+                    </span>
+                    <span className="action-btn edit-action-btn">
+                        <FaRegEdit />
+                    </span>
+                </div>
+            )
         }
     ], [])
 
@@ -37,6 +51,7 @@ export function MySales() {
                 <TableComponent
                     columns={columns}
                     rows={sales}
+                    styleClass="standard-table"
                 />
             </main>
         </>

@@ -1,16 +1,12 @@
-import { useContext } from "react"
 import { useForm } from "../../hooks/useForm"
-import { AuthContext } from "../../providers/AuthProvider"
+
 import { ModalComponent } from "../common/ModalComponent"
 
 export function NewSale({ handleSubmit, setOpen, isOpen }) {
 
-    const { account } = useContext(AuthContext)
-
     const { formData, setFormData, validate, reset, errors, disabled, handleChange } = useForm({
         defaultData: {
             id: '',
-            seller: account,
             description: '',
             title: '',
             price: '',

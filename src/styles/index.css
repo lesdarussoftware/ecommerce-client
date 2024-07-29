@@ -133,7 +133,7 @@ button:disabled {
     width: 100%;
 }
 
-.history-table {
+.standard-table {
     width: 100%;
     text-align: center;
     border-spacing: 0;
@@ -141,7 +141,34 @@ button:disabled {
     border-radius: 5px;
 }
 
-.history-table th,
-.history-table td {
+.standard-table th,
+.standard-table td {
     padding: 15px;
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.actions-container .action-btn {
+    scale: 1.5;
+    cursor: pointer;
+    transition: 200ms all;
+}
+
+.actions-container .action-btn.delete-action-btn {
+    scale: 1.8;
+}
+
+.actions-container .action-btn.delete-action-btn:hover {
+    scale: 2;
+}
+
+.actions-container .action-btn.edit-action-btn:hover {
+    scale: 1.65;
+}
+
+.table-mask {
+    overflow: scroll;
 }

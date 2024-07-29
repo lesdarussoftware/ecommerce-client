@@ -16,11 +16,12 @@ export function useSales() {
     const [purchase, setPurchase] = useState(null)
     const [open, setOpen] = useState(null)
 
-    async function getSales({ query = '' }) {
+    async function getSales({ query = '', authorization = undefined }) {
         const { status, data } = await handleQuery({
             url: SALE_URL + query,
             method: 'GET',
-            contentType: 'application/json'
+            contentType: 'application/json',
+            authorization
         })
         if (status === STATUS_CODES.OK) {
             setSales(data)
@@ -33,7 +34,6 @@ export function useSales() {
         e.preventDefault()
         if (validate()) {
             const submitData = new FormData()
-            submitData.append('seller', newSale.seller)
             submitData.append('title', newSale.title)
             submitData.append('description', newSale.description)
             submitData.append('price', newSale.price)
@@ -51,6 +51,22 @@ export function useSales() {
         }
     }
 
+    async function handleAllow(id) {
+        const { status, data } = await handleQuery({
+            url: SALE_URL + `/handle-allowed/${id}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            authorization: token,
+            body: JSON.stringify({ is_allowed: true })
+        })
+        if (status === STATUS_CODES.OK) {
+            setSales([...sales.filter(s => s.id !== data.id)])
+            setOpen(null)
+        } else {
+            console.log(data)
+        }
+    }
+
     return {
         sales,
         getSales,
@@ -58,6 +74,7 @@ export function useSales() {
         open,
         setOpen,
         purchase,
-        setPurchase
+        setPurchase,
+        handleAllow
     }
 }
