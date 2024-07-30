@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 
@@ -7,10 +7,10 @@ import { useSales } from "../hooks/useSales";
 
 import { Header } from "../components/common/Header";
 import { TableComponent } from "../components/common/TableComponent";
+import { ModalComponent } from "../components/common/ModalComponent";
 
 import { OWNER_ADDRESS } from "../helpers/env";
-import { SALE_COLUMNS } from "../helpers/constants";
-import { ModalComponent } from "../components/common/ModalComponent";
+import { OPEN_TYPES, SALE_COLUMNS } from "../helpers/constants";
 
 export function Administration() {
 
@@ -18,9 +18,7 @@ export function Administration() {
 
     const navigate = useNavigate()
 
-    const { sales, getSales, open, setOpen, handleAllow } = useSales()
-
-    const [workOn, setWorkOn] = useState(null)
+    const { sales, getSales, open, setOpen, handleAllow, workOn, setWorkOn } = useSales()
 
     useEffect(() => {
         if (account !== OWNER_ADDRESS) {
@@ -47,7 +45,7 @@ export function Administration() {
                 <div className="actions-container">
                     <span className="action-btn edit-action-btn" onClick={() => {
                         setWorkOn(row.id)
-                        setOpen('EDIT')
+                        setOpen(OPEN_TYPES.EDIT)
                     }}>
                         <FaRegEdit />
                     </span>
@@ -60,7 +58,7 @@ export function Administration() {
         <>
             <Header />
             <main>
-                <ModalComponent isOpen={open === 'EDIT'} onClose={() => setOpen(null)}>
+                <ModalComponent isOpen={open === OPEN_TYPES.EDIT} onClose={() => setOpen(null)}>
                     <h3 className="modal-h3">¿Habilitar la venta {workOn}?</h3>
                     <div className="modal-btn-panel">
                         <button

@@ -11,6 +11,7 @@ export function SaleItem({ sale, setPurchase, setOpen }) {
                     ))}
                 </div>
                 <div className="sale-item-info">
+                    <p>#{sale.id}</p>
                     <p>{sale.title}</p>
                     <p>{sale.description}</p>
                     <p>{sale.price.toFixed(8)} ETH</p>

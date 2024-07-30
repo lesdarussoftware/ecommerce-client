@@ -15,6 +15,7 @@ export function useSales() {
     const [sales, setSales] = useState([])
     const [purchase, setPurchase] = useState(null)
     const [open, setOpen] = useState(null)
+    const [workOn, setWorkOn] = useState(null)
 
     async function getSales({ query = '', authorization = undefined }) {
         const { status, data } = await handleQuery({
@@ -51,6 +52,24 @@ export function useSales() {
         }
     }
 
+    async function updateSale(e, newSale, validate, reset) {
+        e.preventDefault()
+        if (validate()) {
+            const { status, data } = await handleQuery({
+                url: SALE_URL + `/${newSale.id}`,
+                method: 'PUT',
+                authorization: token,
+                body: JSON.stringify({ ...newSale, images: undefined }),
+                contentType: 'application/json'
+            })
+            if (status === STATUS_CODES.OK) {
+                reset(setOpen)
+                setOpen(null)
+            }
+            console.log(data)
+        }
+    }
+
     async function handleAllow(id) {
         const { status, data } = await handleQuery({
             url: SALE_URL + `/handle-allowed/${id}`,
@@ -75,6 +94,9 @@ export function useSales() {
         setOpen,
         purchase,
         setPurchase,
-        handleAllow
+        handleAllow,
+        workOn,
+        setWorkOn,
+        updateSale
     }
 }

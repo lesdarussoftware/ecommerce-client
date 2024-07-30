@@ -24,7 +24,9 @@ export const STATUS_CODES = {
 
 export const OPEN_TYPES = {
     REGISTER: 'REGISTER',
-    PURCHASE: 'PURCHASE'
+    PURCHASE: 'PURCHASE',
+    EDIT: 'EDIT',
+    DELETE: 'DELETE'
 }
 
 export const SALE_COLUMNS = [

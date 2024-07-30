@@ -1,8 +1,10 @@
+import { useEffect } from "react"
+
 import { useForm } from "../../hooks/useForm"
 
 import { ModalComponent } from "../common/ModalComponent"
 
-export function NewSale({ handleSubmit, setOpen, isOpen }) {
+export function NewSale({ handleSubmit, setOpen, isOpen, defaultData }) {
 
     const { formData, setFormData, validate, reset, errors, disabled, handleChange } = useForm({
         defaultData: {
@@ -10,6 +12,7 @@ export function NewSale({ handleSubmit, setOpen, isOpen }) {
             description: '',
             title: '',
             price: '',
+            is_visible: false,
             images: []
         },
         rules: {
@@ -26,6 +29,12 @@ export function NewSale({ handleSubmit, setOpen, isOpen }) {
             }
         }
     })
+
+    useEffect(() => {
+        if (typeof defaultData?.id === 'number') {
+            setFormData(defaultData)
+        }
+    }, [defaultData])
 
     const handleChangeImages = (e) => {
         setFormData({
@@ -85,10 +94,20 @@ export function NewSale({ handleSubmit, setOpen, isOpen }) {
                         <small>* El precio es requerido</small>
                     }
                 </div>
-                <div className="form-group">
-                    <label htmlFor="images">Imágenes (subidas: {formData.images.length})</label>
-                    <input type="file" multiple onChange={handleChangeImages} />
-                </div>
+                {!defaultData ?
+                    <div className="form-group">
+                        <label htmlFor="images">Imágenes (subidas: {formData.images.length})</label>
+                        <input type="file" multiple onChange={handleChangeImages} />
+                    </div> :
+                    <div className="form-group">
+                        <label htmlFor="visible">Visible</label>
+                        <input
+                            type="checkbox"
+                            checked={formData.is_visible}
+                            onChange={e => handleChange({ target: { name: 'is_visible', value: e.target.checked } })}
+                        />
+                    </div>
+                }
                 <input type="submit" value="Guardar" disabled={disabled} />
                 <button
                     type='button'
